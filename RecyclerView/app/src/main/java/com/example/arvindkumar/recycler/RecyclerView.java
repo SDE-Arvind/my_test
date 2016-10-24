@@ -28,12 +28,13 @@ public class RecyclerView extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
         prepareInfoData();
         // on Item CLICK
-        recyclerView.addOnItemTouchListener(new InfoAdapter(getApplicationContext(), new InfoAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-               Toast.makeText(getApplicationContext()," " + position,Toast.LENGTH_SHORT).show();
-            }
-        }));
+
+//        recyclerView.addOnItemTouchListener(new InfoAdapter(getApplicationContext(), new InfoAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//               Toast.makeText(getApplicationContext()," " + position,Toast.LENGTH_SHORT).show();
+//            }
+//        }));
     }
 
     private void prepareInfoData() {

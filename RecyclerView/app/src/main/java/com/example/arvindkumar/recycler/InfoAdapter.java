@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Arvind Kumar on 24-Oct-16.
  */
 
-public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder> implements RecyclerView.OnItemTouchListener {
+public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder>  {//implements RecyclerView.OnItemTouchListener
 
     List<Info> infoList = new ArrayList<>();
 
@@ -42,24 +42,24 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder
         });
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
-        View childView = view.findChildViewUnder(e.getX(), e.getY());
-        if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-            mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
-        }
-        return false;
-    }
-
-    @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-    }
-
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-    }
+//    @Override
+//    public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
+//        View childView = view.findChildViewUnder(e.getX(), e.getY());
+//        if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
+//            mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+//
+//    }
+//
+//    @Override
+//    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+//
+//    }
 /**
 * Card view holder class
 */
@@ -72,13 +72,13 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder
 
             // ON ITEM CLICK
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position=getAdapterPosition();
-//                    Log.e("click",""+position);
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position=getAdapterPosition();
+                    Log.e("click",""+position);
+                }
+            });
             this.mName = (TextView) itemView.findViewById(R.id.name);
             this.mMobile = (TextView) itemView.findViewById(R.id.mobile_no);
         }
