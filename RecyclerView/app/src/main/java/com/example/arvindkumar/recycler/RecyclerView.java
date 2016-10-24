@@ -3,6 +3,9 @@ package com.example.arvindkumar.recycler;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,12 @@ public class RecyclerView extends AppCompatActivity {
         mAdapter = new InfoAdapter(infoList);
         recyclerView.setAdapter(mAdapter);
         prepareInfoData();
+        recyclerView.addOnItemTouchListener(new InfoAdapter(getApplicationContext(), new InfoAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+               Toast.makeText(getApplicationContext()," " + position,Toast.LENGTH_SHORT).show();
+            }
+        }));
     }
 
     private void prepareInfoData() {
@@ -62,5 +71,11 @@ public class RecyclerView extends AppCompatActivity {
         infoList.add(info);
         mAdapter.notifyDataSetChanged();
 
+    }
+
+    public interface ClickListener {
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
     }
 }
