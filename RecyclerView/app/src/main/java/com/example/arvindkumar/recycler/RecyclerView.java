@@ -27,6 +27,7 @@ public class RecyclerView extends AppCompatActivity {
         mAdapter = new InfoAdapter(infoList);
         recyclerView.setAdapter(mAdapter);
         prepareInfoData();
+        // on Item CLICK
         recyclerView.addOnItemTouchListener(new InfoAdapter(getApplicationContext(), new InfoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

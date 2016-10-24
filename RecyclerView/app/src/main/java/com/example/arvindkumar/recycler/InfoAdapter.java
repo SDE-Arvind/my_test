@@ -2,6 +2,7 @@ package com.example.arvindkumar.recycler;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -68,6 +69,16 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder
 
         public CardViewHolder(View itemView) {
             super(itemView);
+
+            // ON ITEM CLICK
+
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position=getAdapterPosition();
+//                    Log.e("click",""+position);
+//                }
+//            });
             this.mName = (TextView) itemView.findViewById(R.id.name);
             this.mMobile = (TextView) itemView.findViewById(R.id.mobile_no);
         }
