@@ -49,28 +49,27 @@ public class RecyclerView extends AppCompatActivity {
         infoList.add(info);
         info = new Info("arvind5", "12345");
         infoList.add(info);
-        info = new Info("arvind1", "12345");
+        info = new Info("arvind6", "12345");
         infoList.add(info);
-        info = new Info("arvind2", "12345");
+        info = new Info("arvind7", "12345");
         infoList.add(info);
-        info = new Info("arvind3", "12345");
+        info = new Info("arvind8", "12345");
         infoList.add(info);
-        info = new Info("arvind4", "12345");
+        info = new Info("arvind9", "12345");
         infoList.add(info);
-        info = new Info("arvind5", "12345");
+        info = new Info("arvind10", "12345");
         infoList.add(info);
-        info = new Info("arvind1", "12345");
+        info = new Info("arvind11", "12345");
         infoList.add(info);
-        info = new Info("arvind2", "12345");
+        info = new Info("arvind12", "12345");
         infoList.add(info);
-        info = new Info("arvind3", "12345");
+        info = new Info("arvind13", "12345");
         infoList.add(info);
-        info = new Info("arvind4", "12345");
+        info = new Info("arvind14", "12345");
         infoList.add(info);
-        info = new Info("arvind5", "12345");
+        info = new Info("arvind15", "12345");
         infoList.add(info);
         mAdapter.notifyDataSetChanged();
-
     }
 
     public interface ClickListener {
