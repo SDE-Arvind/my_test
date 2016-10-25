@@ -2,13 +2,13 @@ package com.example.arvindkumar.slider;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -24,6 +24,8 @@ public class CustomSwapAdapter extends PagerAdapter {
 
     CustomSwapAdapter(Context iContext) {
         mContext = iContext;
+        //       MAKE PAGER CIRCULAR
+
     }
 
     @Override
@@ -36,24 +38,24 @@ public class CustomSwapAdapter extends PagerAdapter {
         return (view == (LinearLayout) object);
     }
 
+
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View item_view = mLayoutInflater.inflate(R.layout.swap_layout, container, false);
         ImageView imageView = (ImageView) item_view.findViewById(R.id.imageView);
         TextView textView = (TextView) item_view.findViewById(R.id.textView);
-        textView.setText("Image: "+position);
-        Log.e("log","Image: "+position);
+        textView.setText("Image : " + position);
+        Log.e("log", "Image position: " + position);
 
 
         Picasso.with(mContext)
                 .load(image_resources[position])
-//                .resize(100,100)
-                .centerCrop()
+//                .resize(200,200)
+//                .centerCrop()
                 .into(imageView);
 //        imageView.setImageResource(image_resources[position]);
         container.addView(item_view);
-        Log.e("log","test2");
         return item_view;
     }
 
