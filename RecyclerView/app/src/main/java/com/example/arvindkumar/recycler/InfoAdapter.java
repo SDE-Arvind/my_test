@@ -16,32 +16,37 @@ import java.util.List;
 
 /**
  * Created by Arvind Kumar on 24-Oct-16.
+ * Adapter for recyclerview to set data and manage onClickItem Listener
  */
 
-public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder>  {//implements RecyclerView.OnItemTouchListener
+public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder> {//implements RecyclerView.OnItemTouchListener
 
-    List<Info> infoList = new ArrayList<>();
+    List<Info> mInfoList = new ArrayList<>();
+    Context mContext;
 
-    InfoAdapter(List<Info> infoList) {
-        this.infoList = infoList;
+    InfoAdapter(List<Info> iInfoList, Context iContext) {
+
+        this.mInfoList = iInfoList;
+        mContext=iContext;
     }
+
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    private GestureDetector mGestureDetector;
+//    private GestureDetector mGestureDetector;
 
-    public InfoAdapter(Context context, OnItemClickListener listener) {
-        mListener = listener;
-        mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
-            }
-        });
-    }
+//    public InfoAdapter(Context context, OnItemClickListener listener) {
+//        mListener = listener;
+//        mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+//            @Override
+//            public boolean onSingleTapUp(MotionEvent e) {
+//                return true;
+//            }
+//        });
+//    }
 
 //    @Override
 //    public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
@@ -61,10 +66,11 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder
 //    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 //
 //    }
-/**
-* Card view holder class
-*/
-    public class CardViewHolder extends RecyclerView.ViewHolder{
+
+    /**
+     * Card view holder class
+     */
+    public class CardViewHolder extends RecyclerView.ViewHolder {
         protected TextView mName;
         protected TextView mMobile;
 
@@ -76,9 +82,9 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position=getAdapterPosition();
-                    Log.e("click",""+position);
-//                    Toast.makeText(getA," " + position,Toast.LENGTH_SHORT).show();
+                    int position = getAdapterPosition();
+                    Log.e("click", "" + position);
+                    Toast.makeText(mContext,"U click on: " + position,Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -87,7 +93,8 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder
             this.mMobile = (TextView) itemView.findViewById(R.id.mobile_no);
         }
 
-}
+    }
+
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
@@ -97,14 +104,14 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
-        Info info = infoList.get(position);
+        Info info = mInfoList.get(position);
         holder.mName.setText(info.getName());
         holder.mMobile.setText(info.getMobile());
     }
 
     @Override
     public int getItemCount() {
-        return infoList.size();
+        return mInfoList.size();
     }
 
 }

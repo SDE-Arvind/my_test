@@ -9,25 +9,25 @@ public class Info {
     String mName;
     String mMobile;
 
-    public Info(String mName,String mMobile)
+    public Info(String iName,String iMobile)
     {
-        this.mMobile=mMobile;
-        this.mName=mName;
+        setName(iName);
+        setMobile(iMobile);
     }
     public String getName() {
         return mName;
     }
 
-    public void setName(String mName) {
-        this.mName = mName;
+    public void setName(String iName) {
+        this.mName = iName;
     }
 
     public String getMobile() {
         return mMobile;
     }
 
-    public void setMobile(String mMobile) {
-        this.mMobile = mMobile;
+    public void setMobile(String iMobile) {
+        this.mMobile = iMobile;
     }
 
 }
