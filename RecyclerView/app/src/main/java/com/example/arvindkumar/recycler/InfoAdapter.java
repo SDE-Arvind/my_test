@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,8 +78,11 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder
                 public void onClick(View v) {
                     int position=getAdapterPosition();
                     Log.e("click",""+position);
+//                    Toast.makeText(getA," " + position,Toast.LENGTH_SHORT).show();
                 }
             });
+
+
             this.mName = (TextView) itemView.findViewById(R.id.name);
             this.mMobile = (TextView) itemView.findViewById(R.id.mobile_no);
         }
