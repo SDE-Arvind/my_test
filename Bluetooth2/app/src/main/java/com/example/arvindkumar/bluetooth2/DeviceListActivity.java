@@ -45,11 +45,10 @@ public class DeviceListActivity extends Activity {
 				BluetoothDevice device = mDeviceList.get(position);
 				
 				if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
-					unpairDevice(device);
+					deviceConnection(device,"removeBond");
 				} else {
 					showToast("Pairing...");
-					
-					pairDevice(device);
+					deviceConnection(device,"createBond");
 				}
 			}
 		});
@@ -71,25 +70,15 @@ public class DeviceListActivity extends Activity {
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 	}
 	
-    private void pairDevice(BluetoothDevice device) {
+    private void deviceConnection(BluetoothDevice device, String action) {
         try {
-            Method method = device.getClass().getMethod("createBond", (Class[]) null);
+            Method method = device.getClass().getMethod(action, (Class[]) null);
             method.invoke(device, (Object[]) null);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void unpairDevice(BluetoothDevice device) {
-        try {
-            Method method = device.getClass().getMethod("removeBond", (Class[]) null);
-            method.invoke(device, (Object[]) null);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     private final BroadcastReceiver mPairReceiver = new BroadcastReceiver() {
 	    public void onReceive(Context context, Intent intent) {
 	        String action = intent.getAction();
