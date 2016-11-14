@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
     defaultConfig {
-        applicationId "com.example.arvindkumar.bluetoothchatapplication"
+        applicationId "com.example.arvindkumar.blphototransfer"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
@@ -25,6 +25,5 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'id.zelory:compressor:1.0.3'
     testCompile 'junit:junit:4.12'
 }

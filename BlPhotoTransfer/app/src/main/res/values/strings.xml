@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BlPhotoTransfer</string>
+    <string name="couldnt_connect_device">Could not connect to the paired device</string>
+    <string name="sent_success">Photo was sent successfully</string>
+    <string name="send_img_incorrect">Photo was sent, but didnt go through correctly</string>
+    <string name="received_img_incorrect">Photo was received, but didnt come through correctly</string>
+    <string name="incorrect_header">Photo was sent, but the header was formatted incorrectly</string>
+</resources>

@@ -5,17 +5,15 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -34,10 +32,15 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import id.zelory.compressor.Compressor;
+import id.zelory.compressor.FileUtil;
 
 /*
 *      Application to send small image between two bluetooth connected  devices
@@ -55,7 +58,9 @@ public class MainActivity extends AppCompatActivity implements MyConstants {
     private byte[] data = new byte[40000];
     private List<List<Byte>> list = new ArrayList<>();
     private int mSize = 0;
-    Bitmap mImageBitmap;
+    private Bitmap mImageBitmap;
+    private File actualImage;
+    private File compressedImage;
     private Handler handler = new Handler(new Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -70,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements MyConstants {
                 saveToSDCard(bitmap);
                 Log.d("TAG", "data output: " + Arrays.toString(data));
                 data = new byte[40000];
-                mSize=0;
+                mSize = 0;
             } else if (msg.what == MESSAGE_READ) {
                 byte[] readBuf = (byte[]) msg.obj;
                 System.arraycopy(readBuf, 0, data, mSize, readBuf.length);
@@ -89,22 +94,28 @@ public class MainActivity extends AppCompatActivity implements MyConstants {
         setContentView(R.layout.activity_main);
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         getWidgetReferences();
-        mImageBitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
+        mImageBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
         // permission for marshmallow
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-            Log.d("TAG","permission granted");
+            Log.d("TAG", "permission granted");
             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.BLUETOOTH);
             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.BLUETOOTH_ADMIN);
         }
-
-
         mBtnSend.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // compress image to solve Socket overflow problem
-                mImageBitmap = Bitmap.createScaledBitmap(mImageBitmap, 20, 20, true);
+                compressedImage = new Compressor.Builder(getApplicationContext())
+                        .setMaxWidth(20)
+                        .setMaxHeight(20)
+                        .setQuality(100)
+                        .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                        .build()
+                        .compressToFile(actualImage);
+                Log.d("Tag" ,String.format("Size : %s", getReadableFileSize(compressedImage.length())));
+                mImageBitmap = BitmapFactory.decodeFile(compressedImage.getAbsolutePath());
                 sendMessage(convertBitmapToByteArray(mImageBitmap));
             }
         });
@@ -119,7 +130,14 @@ public class MainActivity extends AppCompatActivity implements MyConstants {
             }
         });
     }
-
+    public String getReadableFileSize(long size) {
+        if (size <= 0) {
+            return "0";
+        }
+        final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -160,10 +178,15 @@ public class MainActivity extends AppCompatActivity implements MyConstants {
                 break;
             case REQUEST_SELECT_IMAGE:
                 if (resultCode == Activity.RESULT_OK) {
-                    Uri selectedImageUri = data.getData();
-                    String selectedImagePath = getPath(selectedImageUri);
-                    mImageBitmap = BitmapFactory.decodeFile(selectedImagePath);
-                    mIvIcon.setImageBitmap(mImageBitmap);
+                    try {
+                        actualImage = FileUtil.from(this, data.getData());
+                        mIvIcon.setImageBitmap(BitmapFactory.decodeFile(actualImage.getAbsolutePath()));
+//                        actualSizeTextView.setText(String.format("Size : %s", getReadableFileSize(actualImage.length())));
+                        clearImage();
+                    } catch (IOException e) {
+//                        showError("Failed to read picture data!");
+                        e.printStackTrace();
+                    }
                 } else {
                     Toast.makeText(this, R.string.not_select_image,
                             Toast.LENGTH_SHORT).show();
@@ -172,18 +195,9 @@ public class MainActivity extends AppCompatActivity implements MyConstants {
         }
     }
 
-    public String getPath(Uri selectedImageUri) {
-        String res = null;
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        Cursor cursor = this.getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
-        cursor.moveToFirst();
-        int column_index = cursor.getColumnIndex(filePathColumn[0]);
-        res = cursor.getString(column_index);
-        cursor.close();
-        return res;
+    private void clearImage() {
+        mIvIcon.setBackgroundColor(Color.BLACK);
     }
-
-
     private void connectDevice(Intent data) {
         String address = data.getExtras().getString(
                 DeviceListActivity.DEVICE_ADDRESS);
@@ -212,7 +226,6 @@ public class MainActivity extends AppCompatActivity implements MyConstants {
 
     private void sendMessage(byte[] message) {
         Log.d("TAG ", "send b size" + message.length);
-        Log.d("TAG ", "send byte" + message);
         Log.d("TAG ", "send byte data " + Arrays.toString(message));
 
         mChatService.write(message);
@@ -272,23 +285,23 @@ public class MainActivity extends AppCompatActivity implements MyConstants {
         Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
         return bitmap;
     }
+
     private void saveToSDCard(Bitmap image) {
         Log.d("TAG", "image saved in sd card");
         Date todayDate = new Date();
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", todayDate);
         try {
             // Create a directory
-            File directory = new File(Environment.getExternalStorageDirectory()+ File.separator + "bt_received_file");
+            File directory = new File(Environment.getExternalStorageDirectory() + File.separator + "bt_received_file");
             directory.mkdir();
 
-            File imageFile = new File(directory,todayDate.toString()+".jpg");
+            File imageFile = new File(directory, todayDate.toString() + ".jpg");
             FileOutputStream outputStream = new FileOutputStream(imageFile);
 //            Use the compress method on the BitMap object to write image to the OutputStream
             image.compress(Bitmap.CompressFormat.JPEG, MyConstants.IMAGW_QUALITY, outputStream);
             outputStream.flush();
             outputStream.close();
-            Log.d("TAG", "path :"+imageFile.getAbsolutePath());
-
+            Log.d("TAG", "path :" + imageFile.getAbsolutePath());
         } catch (Throwable e) {
             e.printStackTrace();
         }
