@@ -14,25 +14,23 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="28dp">
 
-        <EditText
-            android:id="@+id/etMain"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:inputType="none" />
-
         <Button
-            android:id="@+id/btnSend"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_send"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="send" />
     </LinearLayout>
 
     <ImageView
-        android:layout_margin="150dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_margin="100dp"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/iv_icon" />
+
+    <Button
+        android:text="Select Image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_choose_image" />
 </LinearLayout>

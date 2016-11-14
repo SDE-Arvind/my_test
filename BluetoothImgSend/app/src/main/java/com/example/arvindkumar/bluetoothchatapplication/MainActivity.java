@@ -1,16 +1,23 @@
 package com.example.arvindkumar.bluetoothchatapplication;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -25,54 +32,52 @@ import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /*
-*      Application to send simple string between two bluetooth connected  devices
+*      Application to send small image between two bluetooth connected  devices
 * */
-public class MainActivity extends AppCompatActivity {
-    public static final int MESSAGE_READ_START = 1;
-    public static final int MESSAGE_READ = 2;
-    public static final int MESSAGE_READ_COMPLETE = 3;
-
-
-
-    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
-    private static final int REQUEST_ENABLE_BT = 2;
-
+public class MainActivity extends AppCompatActivity implements MyConstants {
 
     private EditText mEditTextSend;
     private Button mBtnSend;
     private ImageView mIvIcon;
+    private Button mBtnChoose;
 
     private StringBuffer mOutStringBuffer;
     private BluetoothAdapter mBluetoothAdapter = null;
     private ChatService mChatService = null;
-    private byte[] data ;;
+    private byte[] data = new byte[40000];
+    private List<List<Byte>> list = new ArrayList<>();
+    private int mSize = 0;
+    Bitmap mImageBitmap;
     private Handler handler = new Handler(new Callback() {
         @Override
         public boolean handleMessage(Message msg) {
 
-            if(msg.what == MESSAGE_READ_START)
-            {
-                data= new byte[40000];
-                Log.e("TAG","start sending");
-            }else if (msg.what == MESSAGE_READ_COMPLETE) {
-                ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(data);
-
-                Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
-               // BitmapDrawable ob = new BitmapDrawable(getResources(), bitmap);
-                Toast.makeText(getApplicationContext(), "DATA RECEIVED", Toast.LENGTH_SHORT).show();
-                Log.e("TAG","com "+arrayInputStream);
-                Log.e("TAG","received bytes "+data);
-
-                mIvIcon.setImageBitmap(bitmap);//setBackgroundDrawable(ob);
-            } else if(msg.what == MESSAGE_READ ) {
-
+            if (msg.what == MESSAGE_READ_START) {
+                Log.d("TAG", "start sending");
+            } else if (msg.what == MESSAGE_READ_COMPLETE) {
+                Toast.makeText(getApplicationContext(), "DATA RECEIVED :", Toast.LENGTH_LONG).show();
+                Bitmap bitmap = convertByteArrayToBitmap(data);
+//                bitmap = Bitmap.createScaledBitmap(bitmap, 160, 160, true);
+                mIvIcon.setImageBitmap(bitmap);
+                saveToSDCard(bitmap);
+                Log.d("TAG", "data output: " + Arrays.toString(data));
+                data = new byte[40000];
+                mSize=0;
+            } else if (msg.what == MESSAGE_READ) {
                 byte[] readBuf = (byte[]) msg.obj;
-                Log.e("TAG","r buffer size "+readBuf.length);
-//                Toast.makeText(getApplicationContext(), String.valueOf(readBuf.length), Toast.LENGTH_SHORT).show();
-                if(readBuf!=null)
-                System.arraycopy(data, 0, readBuf, 0, readBuf.length);
+                System.arraycopy(readBuf, 0, data, mSize, readBuf.length);
+                mSize += readBuf.length;
+                Log.d("TAG", "data byte: " + Arrays.toString(data));
+                Log.d("TAG", "read buffer size: " + readBuf.length);
+                Log.d("TAG", "data buffer size: " + mSize);
             }
             return true;
         }
@@ -84,35 +89,60 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         getWidgetReferences();
-//        bindEventHandler();
+        mImageBitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
+
+        // permission for marshmallow
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+            Log.d("TAG","permission granted");
+            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.BLUETOOTH);
+            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.BLUETOOTH_ADMIN);
+        }
+
 
         mBtnSend.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                data=new byte[40000];
-                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.download);
-                sendMessage(convertBitmapToByteArray(largeIcon));
+                // compress image to solve Socket overflow problem
+                mImageBitmap = Bitmap.createScaledBitmap(mImageBitmap, 20, 20, true);
+                sendMessage(convertBitmapToByteArray(mImageBitmap));
             }
         });
 
+        mBtnChoose.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent chooser = new Intent();
+                chooser.setType("image/*");
+                chooser.setAction(Intent.ACTION_PICK);
+                startActivityForResult(Intent.createChooser(chooser, "Select Picture:"), REQUEST_SELECT_IMAGE);
+            }
+        });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putByteArray("image", convertBitmapToByteArray(mImageBitmap));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mImageBitmap = convertByteArrayToBitmap(savedInstanceState.getByteArray("image"));
+        mIvIcon.setImageBitmap(mImageBitmap);
     }
 
     private void getWidgetReferences() {
-        mEditTextSend = (EditText) findViewById(R.id.etMain);
-        mBtnSend = (Button) findViewById(R.id.btnSend);
+        mBtnSend = (Button) findViewById(R.id.btn_send);
+        mBtnChoose = (Button) findViewById(R.id.btn_choose_image);
+
         mIvIcon = (ImageView) findViewById(R.id.iv_icon);
     }
-/*
-    private void bindEventHandler() {
-        mBtnSend.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                String message = mEditTextSend.getText().toString();
-                sendMessage(message);
-            }
-        });
-    }*/
 
     // to Enable bluetooth if not enable on app startup
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         switch (requestCode) {
             case REQUEST_CONNECT_DEVICE_SECURE:
                 if (resultCode == Activity.RESULT_OK) {
@@ -127,8 +157,32 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     finish();
                 }
+                break;
+            case REQUEST_SELECT_IMAGE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri selectedImageUri = data.getData();
+                    String selectedImagePath = getPath(selectedImageUri);
+                    mImageBitmap = BitmapFactory.decodeFile(selectedImagePath);
+                    mIvIcon.setImageBitmap(mImageBitmap);
+                } else {
+                    Toast.makeText(this, R.string.not_select_image,
+                            Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
+
+    public String getPath(Uri selectedImageUri) {
+        String res = null;
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Cursor cursor = this.getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+        cursor.moveToFirst();
+        int column_index = cursor.getColumnIndex(filePathColumn[0]);
+        res = cursor.getString(column_index);
+        cursor.close();
+        return res;
+    }
+
 
     private void connectDevice(Intent data) {
         String address = data.getExtras().getString(
@@ -156,20 +210,10 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private void sendMessage(String message) {
-
-        if (message.length() > 0) {
-            byte[] send = message.getBytes();
-            mChatService.write(send);
-
-            mOutStringBuffer.setLength(0);
-            mEditTextSend.setText(mOutStringBuffer);
-        }
-    }
-
     private void sendMessage(byte[] message) {
-        Log.e("TAG ","send b size"+ message.length);
-        Log.e("TAG ","send byte"+ message);
+        Log.d("TAG ", "send b size" + message.length);
+        Log.d("TAG ", "send byte" + message);
+        Log.d("TAG ", "send byte data " + Arrays.toString(message));
 
         mChatService.write(message);
         mOutStringBuffer.setLength(0);
@@ -178,6 +222,12 @@ public class MainActivity extends AppCompatActivity {
     private void setupChat() {
         mChatService = new ChatService(handler, this);
         mOutStringBuffer = new StringBuffer("");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
 
     @Override
@@ -214,8 +264,33 @@ public class MainActivity extends AppCompatActivity {
     public byte[] convertBitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream(bitmap.getWidth() * bitmap.getHeight());
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, buffer);
-
-        Toast.makeText(getApplicationContext(), String.valueOf(buffer.size()), Toast.LENGTH_SHORT).show();
         return buffer.toByteArray();
+    }
+
+    public Bitmap convertByteArrayToBitmap(byte[] bytes) {
+        ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(bytes);
+        Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
+        return bitmap;
+    }
+    private void saveToSDCard(Bitmap image) {
+        Log.d("TAG", "image saved in sd card");
+        Date todayDate = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", todayDate);
+        try {
+            // Create a directory
+            File directory = new File(Environment.getExternalStorageDirectory()+ File.separator + "bt_received_file");
+            directory.mkdir();
+
+            File imageFile = new File(directory,todayDate.toString()+".jpg");
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+//            Use the compress method on the BitMap object to write image to the OutputStream
+            image.compress(Bitmap.CompressFormat.JPEG, MyConstants.IMAGW_QUALITY, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            Log.d("TAG", "path :"+imageFile.getAbsolutePath());
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -17,11 +17,11 @@ import java.util.UUID;
  * Created by Arvind Kumar on 04-Nov-16.
  */
 // stabled
-public class ChatService {
+public class ChatService implements MyConstants {
     private static final String NAME_SECURE = "BluetoothChatSecure";
     // Unique UUID for this application
     private static final UUID MY_UUID_SECURE = UUID
-            .fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
+            .fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");//     00001101-0000-1000-8000-00805F9B34FB for serial
 
     // Member fields
     private final BluetoothAdapter mBluetoothAdapter;
@@ -31,13 +31,6 @@ public class ChatService {
     private ConnectedThread mConnectedThread;
     private int state;
     private Context mContext;
-
-    // Constants that indicate the current connection state
-    public static final int STATE_NONE = 0;
-    public static final int STATE_LISTEN = 1; // listening connection
-    public static final int STATE_CONNECTING = 2; // initiate outgoing
-    // connection
-    public static final int STATE_CONNECTED = 3; // connected to remote device
 
     public ChatService(Handler handler, Context context) {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -60,13 +53,14 @@ public class ChatService {
     public synchronized void start() {
         // Cancel any thread
         stopAllThreads();
-
         setState(STATE_LISTEN);
         // Start the thread to listen on a BluetoothServerSocket
         if (mSecureAcceptThread == null) {
             mSecureAcceptThread = new AcceptThread();
             mSecureAcceptThread.start();
         }
+        Log.e("TAG", "state listen");
+
     }
 
     // initiate connection to remote device
@@ -77,6 +71,8 @@ public class ChatService {
         mConnectThread = new ConnectThread(device);
         mConnectThread.start();
         setState(STATE_CONNECTING);
+        Log.e("TAG", "state connecting");
+
     }
 
     // manage Bluetooth connection
@@ -86,18 +82,18 @@ public class ChatService {
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
-
         setState(STATE_CONNECTED);
 //        Toast.makeText(mContext," Device Connected",Toast.LENGTH_SHORT).show();
-        Log.e("TAG", "device connected");
+        Log.e("TAG", "state connected");
 
     }
 
     // stop all threads
     public synchronized void stop() {
-
         stopAllThreads();
         setState(STATE_NONE);
+        Log.e("TAG", "State none");
+
     }
 
     private void stopAllThreads() {
@@ -223,12 +219,10 @@ public class ChatService {
                 connectionFailed();
                 return;
             }
-
             // Reset the ConnectThread because we're done
             synchronized (ChatService.this) {
                 mConnectThread = null;
             }
-
             // Start the connected thread
             connected(socket, device);
         }
@@ -267,40 +261,41 @@ public class ChatService {
             int bytes = 0;
             int i = 0;
 
-            mHandler.obtainMessage(MainActivity.MESSAGE_READ_START, bytes, -1,
+            mHandler.obtainMessage(MESSAGE_READ_START, bytes, -1,
                     buffer).sendToTarget();
             // Keep listening to the InputStream
             while (true) {
                 try {
                     // Read from the InputStream
                     bytes = inputStream.read(buffer);
-                    Log.e("TAG ", "size " + bytes);
+                    Log.d("TAG","byte read from inputstream :"+bytes);
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes, -1,
+                    mHandler.obtainMessage(MESSAGE_READ, bytes, -1,
                             buffer).sendToTarget();
-
                 } catch (Exception e) {
-                    Log.e("TAG ", "Exception occur");
+                    Log.d("TAG ", "Exception occur");
                     connectionLost();
-
                     // Start the service over to restart listening mode
-//                    ChatService.this.start();
+                    ChatService.this.start();
                     break;
                 }
                 if (bytes < 990) {
-                    break;
+                    Log.d("TAG ", "send completed");
+                    mHandler.obtainMessage(MESSAGE_READ_COMPLETE, bytes, -1,
+                            buffer).sendToTarget();
                 }
             }
-            Log.e("TAG ", "send completed");
-            mHandler.obtainMessage(MainActivity.MESSAGE_READ_COMPLETE, bytes, -1,
-                    buffer).sendToTarget();
-
         }
 
         public void writeOutputStream(byte[] buffer) {
             try {
-                outputStream.write(buffer);
+//                int length = buffer.length;
+//                byte [] bufferTemp=new byte[8000];
+//                while (length > 0) {
+                    outputStream.write(buffer);
+//                }
             } catch (IOException e) {
+
             }
         }
 
