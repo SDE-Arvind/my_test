@@ -45,8 +45,8 @@ public class ClientThread extends Thread {
                 Log.e(TAG, "Socket close exception: " + ce.toString());
             }
         }
-        Looper.prepare();
 
+        Looper.prepare();
         mIncomingHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
@@ -104,7 +104,6 @@ public class ClientThread extends Thread {
                 }
             }
         };
-
         mHandler.sendEmptyMessage(MessageType.READY_FOR_DATA);
         Looper.loop();
     }

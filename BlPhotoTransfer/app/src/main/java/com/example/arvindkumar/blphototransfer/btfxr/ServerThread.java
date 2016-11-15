@@ -43,8 +43,6 @@ public class ServerThread extends Thread {
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
-                // close server socket
-//                cancel();
             } catch (IOException ioe) {
                 Log.v(TAG, "Server socket was closed - likely due to cancel method on server thread");
                 break;

@@ -45,14 +45,13 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // permission for marshmallow
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE);
             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.BLUETOOTH);
             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.BLUETOOTH_ADMIN);
-            Log.d("TAG", "permission granted");
+            Log.d("TAG", "permission granted for marshmallow");
 
         }
 
@@ -107,13 +106,11 @@ public class MainActivity extends AppCompatActivity {
                             mProgressDialog.dismiss();
                             mProgressDialog = null;
                         }
-
                         BitmapFactory.Options options = new BitmapFactory.Options();
                         options.inSampleSize = 2;
                         Bitmap image = BitmapFactory.decodeByteArray(((byte[]) message.obj), 0, ((byte[]) message.obj).length, options);
                         ImageView imageView = (ImageView) findViewById(R.id.iv_show_image);
                         imageView.setImageBitmap(image);
-
                         //save image to sd card
                         saveToSDCard(image);
                         break;
@@ -151,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (MainApplication.pairedDevices != null) {
             if (MainApplication.serverThread == null) {
-                Log.v(TAG, "Starting server thread.  Able to accept photos.");
+                Log.v(TAG, "Starting server thread waiting for socket connection.  Able to accept photos.");
                 MainApplication.serverThread = new ServerThread(MainApplication.adapter, MainApplication.serverHandler);
                 MainApplication.serverThread.start();
             }
@@ -188,6 +185,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Bluetooth is not enabled or supported on this device", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -261,13 +263,14 @@ public class MainActivity extends AppCompatActivity {
         String spinnerText;
         String value;
     }
+
     private void saveToSDCard(Bitmap image) {
         Log.d("TAG", "image saved in sd card");
         Date todayDate = new Date();
         android.text.format.DateFormat.format(Constants.IMAGE_NAME_FORMAT, todayDate);
         try {
             // Create a directory
-            File directory = new File(Environment.getExternalStorageDirectory() + File.separator +Constants.DIRECTORY_NAME);
+            File directory = new File(Environment.getExternalStorageDirectory() + File.separator + Constants.DIRECTORY_NAME);
             directory.mkdir();
 
             File imageFile = new File(directory, todayDate.toString() + Constants.IMAGE_FORMAT);

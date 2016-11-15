@@ -54,7 +54,6 @@ class DataTransferThread extends Thread {
                             break;
                         }
                     }
-
                 } else {
                     // Read the data from the stream in chunks
                     byte[] buffer = new byte[Constants.CHUNK_SIZE];
@@ -64,7 +63,6 @@ class DataTransferThread extends Thread {
                     dataOutputStream.write(buffer, 0, bytesRead);
                     progressData.remainingSize -= bytesRead;
                     sendProgress(progressData);
-
                     if (progressData.remainingSize <= 0) {
                         Log.v(TAG, "Expected data has been received.");
                         break;

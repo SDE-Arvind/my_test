@@ -37,4 +37,10 @@
         android:enabled="false"
         android:text="@string/text_scan_devices" />
 
+    <Button
+        android:text="Discovrable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_discovrable" />
+
 </LinearLayout>

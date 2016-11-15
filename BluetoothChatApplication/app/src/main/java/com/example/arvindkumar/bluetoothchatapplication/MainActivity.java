@@ -112,8 +112,7 @@ public class MainActivity extends AppCompatActivity {
             bindEventHandler();
 
             if (bluetoothAdapter == null) {
-                Toast.makeText(this, "Bluetooth is not available",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
                 finish();
                 return;
             }

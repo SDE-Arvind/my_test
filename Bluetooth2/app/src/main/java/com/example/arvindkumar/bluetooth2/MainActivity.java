@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
     private Button mActivateBtn;
     private Button mPairedBtn;
     private Button mScanBtn;
-
+    private Button mDiscoverableBtn;
     private ProgressDialog mProgressDlg;
 
     private ArrayList<BluetoothDevice> mDeviceList = new ArrayList<BluetoothDevice>();
@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
         mActivateBtn = (Button) findViewById(R.id.btn_enable);
         mPairedBtn = (Button) findViewById(R.id.btn_view_paired);
         mScanBtn = (Button) findViewById(R.id.btn_scan);
+        mDiscoverableBtn = (Button) findViewById(R.id.btn_discovrable);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -108,6 +109,20 @@ public class MainActivity extends Activity {
                 }
             });
 
+            mDiscoverableBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mBluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+                        Intent getVisible = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                        getVisible.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 30); // make bt discoverable for 30 sec.
+                        startActivityForResult(getVisible, 0);
+                        showToast("Bluetooth Discovery Mode ON ");
+                    } else {
+                        showToast("Bluetooth Discoverable is already ON ");
+                    }
+                }
+            });
+
             if (mBluetoothAdapter.isEnabled()) {
                 showEnabled();
             } else {
@@ -152,6 +167,7 @@ public class MainActivity extends Activity {
 
         mPairedBtn.setEnabled(true);
         mScanBtn.setEnabled(true);
+        mDiscoverableBtn.setEnabled(true);
     }
 
     private void showDisabled() {
@@ -163,6 +179,7 @@ public class MainActivity extends Activity {
 
         mPairedBtn.setEnabled(false);
         mScanBtn.setEnabled(false);
+        mDiscoverableBtn.setEnabled(false);
     }
 
     private void showUnsupported() {
@@ -192,22 +209,17 @@ public class MainActivity extends Activity {
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
                 mDeviceList = new ArrayList<BluetoothDevice>();
-
                 mProgressDlg.show();
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 mProgressDlg.dismiss();
 
                 Intent newIntent = new Intent(MainActivity.this, DeviceListActivity.class);
-
                 newIntent.putParcelableArrayListExtra("device.list", mDeviceList);
-
                 startActivity(newIntent);
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
                 mDeviceList.add(device);
-
-                showToast("Found device " + device.getName());
+//                showToast("Found device " + device.getName());
             }
         }
     };

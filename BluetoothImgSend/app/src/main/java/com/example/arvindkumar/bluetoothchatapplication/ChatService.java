@@ -60,7 +60,6 @@ public class ChatService implements MyConstants {
             mSecureAcceptThread.start();
         }
         Log.e("TAG", "state listen");
-
     }
 
     // initiate connection to remote device

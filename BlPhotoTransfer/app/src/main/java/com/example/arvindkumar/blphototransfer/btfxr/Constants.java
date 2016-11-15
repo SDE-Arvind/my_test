@@ -9,6 +9,4 @@ public class Constants {
     public static final String IMAGE_FORMAT=".jpg";
     public static final String IMAGE_NAME_FORMAT="yyyy-MM-dd_hh:mm:ss";
     public static final String DIRECTORY_NAME= "bt_received_file";
-
-
 }
