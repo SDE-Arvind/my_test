@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BluetoothConnection</string>
+    <string name="header_text">Send image/pdf through bluetooth</string>
+    <string name="select_button">Select file</string>
+    <string name="send_button">SEND</string>
+    <string name="connection_status">No Device connected</string>
+    <string name="no_file">No file selected</string>
+    <string name="couldnt_connect_device">Could not connect to the paired device</string>
+    <string name="sent_success">File was sent successfully</string>
+    <string name="send_img_incorrect">File was sent, but didnt go through correctly</string>
+    <string name="received_img_incorrect">File was received, but didnt come through correctly</string>
+    <string name="incorrect_header">File  was sent, but the header was formatted incorrectly</string>
+    <string name="bt_disable">Bluetooth is not enabled</string>
+</resources>
