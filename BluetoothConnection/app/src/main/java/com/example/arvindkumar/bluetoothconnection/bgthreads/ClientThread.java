@@ -2,6 +2,7 @@ package com.example.arvindkumar.bluetoothconnection.bgthreads;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -28,8 +29,8 @@ public class ClientThread extends Thread {
     public Handler mIncomingHandler;
 
     /**
-     * @param iDevice     bluetooth device  for socket connection
-     * @param iHandler    client handler reference from main thread
+     * @param iDevice  bluetooth device  for socket connection
+     * @param iHandler client handler reference from main thread
      */
     public ClientThread(BluetoothDevice iDevice, Handler iHandler) {
         BluetoothSocket tempSocket = null;
@@ -67,10 +68,13 @@ public class ClientThread extends Thread {
                 if (iMessage.obj != null) {
                     Log.v(TAG, "Handle data sending");
                     byte[] payload = (byte[]) iMessage.obj;
-
+                    Bundle b = iMessage.getData();
+                    String filename = b.getString("fileName");
                     try {
                         mClientHandler.sendEmptyMessage(MessageType.SENDING_DATA);
                         OutputStream outputStream = mSocket.getOutputStream();
+                        // write size of header
+                        outputStream.write(Utils.intToByteArray((22 + filename.length())));
 
                         // Send the header control first
                         outputStream.write(Constants.HEADER_MSB);              /* 1 byte */
@@ -78,11 +82,14 @@ public class ClientThread extends Thread {
 
                         // write size of file
                         outputStream.write(Utils.intToByteArray(payload.length)); /* 4 byte */
+                        // write size of file name
+//                        outputStream.write(Utils.intToByteArray(filename.length()));  /* 4 byte */
 
                         // write digest using MD5 algorithm
                         byte[] digest = Utils.getDigest(payload);
                         outputStream.write(digest);                              /* 16 byte */
-
+                        //writing file name
+                        outputStream.write(filename.getBytes());
                         // now write the data
                         outputStream.write(payload);
                         outputStream.flush();
@@ -128,7 +135,7 @@ public class ClientThread extends Thread {
     }
 
     /**
-     *close socket connection of client - server
+     * close socket connection of client - server
      */
     public void cancel() {
         try {

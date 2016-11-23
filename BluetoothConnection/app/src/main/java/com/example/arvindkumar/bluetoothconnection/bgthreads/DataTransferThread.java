@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.arvindkumar.bluetoothconnection.ProgressData;
+import com.example.arvindkumar.bluetoothconnection.utilitiy.ProgressData;
 import com.example.arvindkumar.bluetoothconnection.constants.Constants;
 import com.example.arvindkumar.bluetoothconnection.constants.MessageType;
 import com.example.arvindkumar.bluetoothconnection.utilitiy.Utils;
@@ -38,31 +38,43 @@ class DataTransferThread extends Thread {
             InputStream inputStream = mSocket.getInputStream();
             boolean waitingForHeader = true;
             ByteArrayOutputStream dataOutputStream = new ByteArrayOutputStream();
-            byte[] headerBytes = new byte[22];
             byte[] digest = new byte[16];
             int headerIndex = 0;
             ProgressData progressData = new ProgressData();
+            byte prefix[]=new byte[4];
+            inputStream.read(prefix,0,4);
+            int headerSize =Utils.byteArrayToInt(prefix);
+            byte[] headerBytes = new byte[headerSize +22];
+            Log.d("header size",""+ headerSize);
 
             while (true) {
                 if (waitingForHeader) {
                     byte[] header = new byte[1];
-                    inputStream.read(header, 0, 1);
+                    inputStream.read(header,0,1);
                     Log.v(TAG, "Received Header Byte: " + header[0]);
                     headerBytes[headerIndex++] = header[0];
-
-                    if (headerIndex == 22) {
+                    if (headerIndex == headerSize) {
                         if ((headerBytes[0] == Constants.HEADER_MSB) && (headerBytes[1] == Constants.HEADER_LSB)) {
                             Log.v(TAG, "Header   Received.  Now obtaining length");
                             //get size of file which is receiving
                             byte[] dataSizeBuffer = Arrays.copyOfRange(headerBytes, 2, 6);
                             progressData.totalSize = Utils.byteArrayToInt(dataSizeBuffer);
                             progressData.remainingSize = progressData.totalSize;
-
                             Log.v(TAG, "Data size: " + progressData.totalSize);
-                            // get digest for data security check
-                            digest = Arrays.copyOfRange(headerBytes, 6, 22);
+                            // file name length
+//                            byte[] nameSizeBuffer = Arrays.copyOfRange(headerBytes, 6,10);
+                            // get digest
+                            digest = Arrays.copyOfRange(headerBytes, 6,22);
+                            Log.d( "digest ",Arrays.toString(digest));
+                            //get file name
+                            byte[] fileName =Arrays.copyOfRange(headerBytes,22, headerSize);
+                            Message message = new Message();
+                            message.obj = fileName;
+                            message.what = MessageType.NAME_RECEIVED;
+                            mServerHandler.sendMessage(message);
+
                             waitingForHeader = false;
-                            // send data progress on main activity (server side)
+                            // send fileName progress on main activity (server side)
                             sendProgress(progressData);
                         } else {
                             Log.e(TAG, "Did not receive correct header.  Closing mSocket");
@@ -83,6 +95,7 @@ class DataTransferThread extends Thread {
                     sendProgress(progressData);
                     if (progressData.remainingSize <= 0) {
                         Log.v(TAG, "Expected data has been received.");
+//                        inputStream.close();
                         break;
                     }
                 }
@@ -102,6 +115,7 @@ class DataTransferThread extends Thread {
                 Log.v(TAG, "Sending back digest for confirmation");
                 OutputStream outputStream = mSocket.getOutputStream();
                 outputStream.write(digest);
+//                outputStream.close();
             } else {
                 Log.e(TAG, "Digest did not match.  Corrupt transfer?");
                 mServerHandler.sendEmptyMessage(MessageType.DIGEST_DID_NOT_MATCH);

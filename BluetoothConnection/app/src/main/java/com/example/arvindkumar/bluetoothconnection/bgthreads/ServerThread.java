@@ -56,6 +56,7 @@ public class ServerThread extends Thread {
                 }
             } catch (IOException ioe) {
                 Log.v(TAG, "Server socket was closed - likely due to cancel method on server thread");
+                cancel();
                 break;
             }
         }

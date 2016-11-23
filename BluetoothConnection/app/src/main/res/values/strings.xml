@@ -11,4 +11,8 @@
     <string name="received_img_incorrect">File was received, but didnt come through correctly</string>
     <string name="incorrect_header">File  was sent, but the header was formatted incorrectly</string>
     <string name="bt_disable">Bluetooth is not enabled</string>
+    <string name="text_pair">Pair</string>
+    <string name="device_name">Galaxy Nexus</string>
+    <string name="device_no">000000000</string>
+    <string name="bluetooth_status">Bluetooth Status</string>
 </resources>
