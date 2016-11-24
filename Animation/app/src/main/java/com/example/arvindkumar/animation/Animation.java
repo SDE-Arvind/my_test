@@ -13,7 +13,7 @@ public class Animation extends AppCompatActivity implements View.OnClickListener
     private Button animFour;
     private Button animFive;
     private Button animZoom;
-
+///////////////////////////////////////////////
     Intent intent;
 
     @Override
