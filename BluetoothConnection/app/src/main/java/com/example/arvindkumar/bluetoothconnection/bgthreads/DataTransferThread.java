@@ -38,36 +38,39 @@ class DataTransferThread extends Thread {
             InputStream inputStream = mSocket.getInputStream();
             boolean waitingForHeader = true;
             ByteArrayOutputStream dataOutputStream = new ByteArrayOutputStream();
-            byte[] digest = new byte[16];
+            byte[] digest = new byte[Constants.DIGEST_SIZE];
             int headerIndex = 0;
             ProgressData progressData = new ProgressData();
-            byte prefix[]=new byte[4];
-            inputStream.read(prefix,0,4);
+            byte prefix[]=new byte[Constants.PREFIX_SIZE];
+            inputStream.read(prefix,0,Constants.PREFIX_SIZE);
             int headerSize =Utils.byteArrayToInt(prefix);
-            byte[] headerBytes = new byte[headerSize +22];
+            byte[] headerBytes = new byte[headerSize];                         //+22
             Log.d("header size",""+ headerSize);
 
             while (true) {
                 if (waitingForHeader) {
                     byte[] header = new byte[1];
                     inputStream.read(header,0,1);
-                    Log.v(TAG, "Received Header Byte: " + header[0]);
+//                    Log.v(TAG, "Received Header Byte: " + header[0]);
                     headerBytes[headerIndex++] = header[0];
                     if (headerIndex == headerSize) {
                         if ((headerBytes[0] == Constants.HEADER_MSB) && (headerBytes[1] == Constants.HEADER_LSB)) {
+                            int readerHead=2;
                             Log.v(TAG, "Header   Received.  Now obtaining length");
                             //get size of file which is receiving
-                            byte[] dataSizeBuffer = Arrays.copyOfRange(headerBytes, 2, 6);
+                            byte[] dataSizeBuffer = Arrays.copyOfRange(headerBytes, readerHead,readerHead+Constants.FILE_SIZE);
                             progressData.totalSize = Utils.byteArrayToInt(dataSizeBuffer);
                             progressData.remainingSize = progressData.totalSize;
+
+                            readerHead+=Constants.FILE_SIZE;
                             Log.v(TAG, "Data size: " + progressData.totalSize);
-                            // file name length
-//                            byte[] nameSizeBuffer = Arrays.copyOfRange(headerBytes, 6,10);
                             // get digest
-                            digest = Arrays.copyOfRange(headerBytes, 6,22);
+                            digest = Arrays.copyOfRange(headerBytes, readerHead,readerHead+Constants.DIGEST_SIZE);
                             Log.d( "digest ",Arrays.toString(digest));
+
+                            readerHead+=Constants.DIGEST_SIZE;
                             //get file name
-                            byte[] fileName =Arrays.copyOfRange(headerBytes,22, headerSize);
+                            byte[] fileName =Arrays.copyOfRange(headerBytes,readerHead, headerSize);
                             Message message = new Message();
                             message.obj = fileName;
                             message.what = MessageType.NAME_RECEIVED;

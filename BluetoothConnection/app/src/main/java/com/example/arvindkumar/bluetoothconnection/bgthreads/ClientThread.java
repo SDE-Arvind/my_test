@@ -73,18 +73,15 @@ public class ClientThread extends Thread {
                     try {
                         mClientHandler.sendEmptyMessage(MessageType.SENDING_DATA);
                         OutputStream outputStream = mSocket.getOutputStream();
-                        // write size of header
-                        outputStream.write(Utils.intToByteArray((22 + filename.length())));
+                        // write prefix (size of header)
+                        int headerSize=Constants.MSB_SIZE+ Constants.LSB_SIZE+Constants.FILE_SIZE+Constants.DIGEST_SIZE;
+                        outputStream.write(Utils.intToByteArray((headerSize + filename.length())));
 
                         // Send the header control first
                         outputStream.write(Constants.HEADER_MSB);              /* 1 byte */
                         outputStream.write(Constants.HEADER_LSB);              /* 1 byte */
-
                         // write size of file
                         outputStream.write(Utils.intToByteArray(payload.length)); /* 4 byte */
-                        // write size of file name
-//                        outputStream.write(Utils.intToByteArray(filename.length()));  /* 4 byte */
-
                         // write digest using MD5 algorithm
                         byte[] digest = Utils.getDigest(payload);
                         outputStream.write(digest);                              /* 16 byte */
