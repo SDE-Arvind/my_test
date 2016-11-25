@@ -1,13 +1,11 @@
 package com.example.arvindkumar.coverflow;
 
-import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.LinkagePager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,43 +19,25 @@ public class MainActivity extends AppCompatActivity {
 
     private LinkagePagerContainer customPagerContainer;
     private LinkagePager pager;
-    private AppBarLayout appBarLayout;
-    private int parallaxHeight;
-    private View tab;
+    private TextView t;
+//    private View tab;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        parallaxHeight = getResources().getDimensionPixelSize(R.dimen.cover_pager_height) - getResources().getDimensionPixelSize(R.dimen.tab_height);
-
-        Log.d("###","parallaxHeight:" + parallaxHeight);
-
-        appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                // Log.d("###","verticalOffset: " + Math.abs(verticalOffset));
-                if(Math.abs(verticalOffset) >= parallaxHeight){
-                    tab.setVisibility(View.VISIBLE);
-                }else{
-                    tab.setVisibility(View.GONE);
-                }
-
-            }
-        });
+        t=(TextView) findViewById(R.id.text) ;
 
         customPagerContainer = (LinkagePagerContainer) findViewById(R.id.pager_container);
 
         customPagerContainer.setPageItemClickListener(new PageItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                pager.setCurrentItem(position);
+//                pager.setCurrentItem(position);   //
+                t.setText("my position is :"+position);
             }
         });
 
-        tab = findViewById(R.id.tab);
 
         final LinkagePager cover = customPagerContainer.getViewPager();
 
@@ -68,49 +48,48 @@ public class MainActivity extends AppCompatActivity {
         new CoverFlow.Builder()
                 .withLinkage(cover)
                 .pagerMargin(0f)
-                .scale(0.3f)
+                .scale(0.1f)
                 .spaceSize(0f)
                 .build();
+  // scale --- space b/w two image horizontally
 
+//
+//        pager = (LinkagePager) findViewById(R.id.pager);
+//        MyListPagerAdapter adapter = new MyListPagerAdapter();
 
-        pager = (LinkagePager) findViewById(R.id.pager);
+//        pager.setOffscreenPageLimit(Data.covers.length);
+//        pager.setAdapter(adapter);
 
-        MyListPagerAdapter adapter = new MyListPagerAdapter();
-
-        pager.setOffscreenPageLimit(Data.covers.length);
-        pager.setAdapter(adapter);
-
-        cover.setLinkagePager(pager);
-        pager.setLinkagePager(cover);
-
+//        cover.setLinkagePager(pager);
+//        pager.setLinkagePager(cover);
     }
 
-    class MyListPagerAdapter extends PagerAdapter{
-
-        @Override
-        public int getCount() {
-            return Data.covers.length;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-
-            DataDemoView view = new DataDemoView(MainActivity.this);
-            container.addView(view);
-            return view;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View)object);
-        }
-
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-    }
+//    class MyListPagerAdapter extends PagerAdapter {
+//
+//        @Override
+//        public int getCount() {
+//            return Data.covers.length;
+//        }
+//
+//        @Override
+//        public Object instantiateItem(ViewGroup container, int position) {
+//
+//            DataDemoView view = new DataDemoView(MainActivity.this);
+//            container.addView(view);
+//            return view;
+//        }
+//
+//        @Override
+//        public void destroyItem(ViewGroup container, int position, Object object) {
+//            container.removeView((View) object);
+//        }
+//
+//
+//        @Override
+//        public boolean isViewFromObject(View view, Object object) {
+//            return view == object;
+//        }
+//    }
 
     private class MyPagerAdapter extends PagerAdapter {
 
@@ -119,21 +98,18 @@ public class MainActivity extends AppCompatActivity {
             TextView view = new TextView(MainActivity.this);
             view.setGravity(Gravity.CENTER);
             view.setBackgroundResource(Data.covers[position]);
-
             container.addView(view);
             return view;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View)object);
+            container.removeView((View) object);
         }
-
         @Override
         public int getCount() {
             return Data.covers.length;
         }
-
         @Override
         public boolean isViewFromObject(View view, Object object) {
             return (view == object);

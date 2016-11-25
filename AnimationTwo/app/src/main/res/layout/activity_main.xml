@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.arvindkumar.animationtwo.MainActivity">
+
+    <Button
+        android:text="Scale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btn_scale" />
+
+    <Button
+        android:text="Alpha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/btn_transform"
+        android:layout_toEndOf="@+id/btn_transform"
+        android:id="@+id/btn_alpha" />
+
+    <Button
+        android:text="rotate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_alpha"
+        android:layout_toRightOf="@+id/btn_alpha"
+        android:layout_toEndOf="@+id/btn_alpha"
+        android:id="@+id/btn_rotate" />
+
+    <Button
+        android:text="scale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_transform"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/btn_scale"
+        android:layout_toEndOf="@+id/btn_scale" />
+
+    <Button
+        android:text="set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:id="@+id/btn_set" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        app:srcCompat="@mipmap/toy"
+        android:layout_below="@+id/btn_alpha"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="164dp"
+        android:id="@+id/iv_icon" />
+</RelativeLayout>
