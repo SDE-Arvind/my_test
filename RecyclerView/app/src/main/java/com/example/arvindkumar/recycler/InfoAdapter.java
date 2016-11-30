@@ -3,11 +3,10 @@ package com.example.arvindkumar.recycler;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +18,7 @@ import java.util.List;
  * Adapter for recyclerview to set data and manage onClickItem Listener
  */
 
-public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder> {//implements RecyclerView.OnItemTouchListener
+public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {//implements RecyclerView.OnItemTouchListener
 
     List<Info> mInfoList = new ArrayList<>();
     Context mContext;
@@ -70,11 +69,12 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder
     /**
      * Card view holder class
      */
-    public class CardViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         protected TextView mName;
         protected TextView mMobile;
+        protected ImageView mImage;
 
-        public CardViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
 
             // ON ITEM CLICK
@@ -88,25 +88,26 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.CardViewHolder
                 }
             });
 
-
-            this.mName = (TextView) itemView.findViewById(R.id.name);
-            this.mMobile = (TextView) itemView.findViewById(R.id.mobile_no);
+//            this.mName = (TextView) itemView.findViewById(R.id.name);
+//            this.mMobile = (TextView) itemView.findViewById(R.id.mobile_no);
+            this.mImage=(ImageView) itemView.findViewById(R.id.imageView);
         }
 
     }
 
     @Override
-    public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
 
-        return new CardViewHolder(itemView);
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(CardViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         Info info = mInfoList.get(position);
-        holder.mName.setText(info.getName());
-        holder.mMobile.setText(info.getMobile());
+//        holder.mName.setText(info.getName());
+//        holder.mMobile.setText(info.getMobile());
+        holder.mImage.setImageResource(info.getImage());
     }
 
     @Override

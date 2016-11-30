@@ -3,6 +3,8 @@ package com.example.arvindkumar.recycler;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +12,15 @@ import java.util.List;
 public class RecyclerView extends AppCompatActivity {
     private android.support.v7.widget.RecyclerView mRecyclerView;
     private android.support.v7.widget.RecyclerView.Adapter mAdapter;
-    private android.support.v7.widget.RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     List<Info> mInfoList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mLayoutManager=new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         setContentView(R.layout.activity_recycler_view);
         mRecyclerView = (android.support.v7.widget.RecyclerView) findViewById(R.id.recycler);
-        mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new InfoAdapter(mInfoList,getApplicationContext());
@@ -29,44 +31,44 @@ public class RecyclerView extends AppCompatActivity {
 //        mRecyclerView.addOnItemTouchListener(new InfoAdapter(getApplicationContext(), new InfoAdapter.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(View view, int position) {
-//               Toast.makeText(getApplicationContext()," " + position,Toast.LENGTH_SHORT).show();
+//               Toast.makeText(getApplicationContext()," " + position, Toast.LENGTH_SHORT).show();
 //            }
 //        }));
     }
 
     private void prepareInfoData() {
-        Info info = new Info("arvind", "12345");
+        Info info = new Info(R.mipmap.ic_cover_1);
         mInfoList.add(info);
-        info = new Info("arvind1", "12345");
+        info = new Info(R.mipmap.ic_cover_2);
         mInfoList.add(info);
-        info = new Info("arvind2", "12345");
+        info = new Info(R.mipmap.ic_cover_3);
         mInfoList.add(info);
-        info = new Info("arvind3", "12345");
+        info = new Info(R.mipmap.ic_cover_4);
         mInfoList.add(info);
-        info = new Info("arvind4", "12345");
+        info = new Info(R.mipmap.ic_cover_5);
         mInfoList.add(info);
-        info = new Info("arvind5", "12345");
+        info = new Info(R.mipmap.ic_cover_6);
         mInfoList.add(info);
-        info = new Info("arvind6", "12345");
+        info = new Info(R.mipmap.ic_cover_7);
         mInfoList.add(info);
-        info = new Info("arvind7", "12345");
-        mInfoList.add(info);
-        info = new Info("arvind8", "12345");
-        mInfoList.add(info);
-        info = new Info("arvind9", "12345");
-        mInfoList.add(info);
-        info = new Info("arvind10", "12345");
-        mInfoList.add(info);
-        info = new Info("arvind11", "12345");
-        mInfoList.add(info);
-        info = new Info("arvind12", "12345");
-        mInfoList.add(info);
-        info = new Info("arvind13", "12345");
-        mInfoList.add(info);
-        info = new Info("arvind14", "12345");
-        mInfoList.add(info);
-        info = new Info("arvind15", "12345");
-        mInfoList.add(info);
+//        info = new Info("arvind7", "12345");
+//        mInfoList.add(info);
+//        info = new Info("arvind8", "12345");
+//        mInfoList.add(info);
+//        info = new Info("arvind9", "12345");
+//        mInfoList.add(info);
+//        info = new Info("arvind10", "12345");
+//        mInfoList.add(info);
+//        info = new Info("arvind11", "12345");
+//        mInfoList.add(info);
+//        info = new Info("arvind12", "12345");
+//        mInfoList.add(info);
+//        info = new Info("arvind13", "12345");
+//        mInfoList.add(info);
+//        info = new Info("arvind14", "12345");
+//        mInfoList.add(info);
+//        info = new Info("arvind15", "12345");
+//        mInfoList.add(info);
         mAdapter.notifyDataSetChanged();
     }
 }

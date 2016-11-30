@@ -9,11 +9,26 @@ public class Info {
     String mName;
     String mMobile;
 
-    public Info(String iName,String iMobile)
-    {
-        setName(iName);
-        setMobile(iMobile);
+    public int getImage() {
+        return mImage;
     }
+
+    public void setImage(int mImage) {
+        this.mImage = mImage;
+    }
+
+    int mImage;
+
+//    public Info(String iName,String iMobile)
+//    {
+//        setName(iName);
+//        setMobile(iMobile);
+//    }
+
+    public Info(int id)
+       {
+           setImage(id);
+       }
     public String getName() {
         return mName;
     }
