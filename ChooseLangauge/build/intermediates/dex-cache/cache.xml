@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f83b00041ecfba705603fec40363416c7de69719">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_630ccc02f7f31a4b0a2deefe4ebbe514538e5c9c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="b24e1c688744078e1fa833ffadf696794761bbe5">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-25.0.1_b62b135d311d12dfd87bd37289091c7f6c3885c0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="6a1479afe9f1b3645e1cd9a87318976893472818">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.android.support-support-media-compat-25.0.1_bf4690512f6e394c04d248dcb45a2a6c89681dd2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="00d4c8eebf2b681073c72a26bd0849549e51c7cb">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-utils-25.0.1_2b05ac3586d591684f25298aac3beb1acca17cd8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="3af8cc51ef7088e56f132780da8c0bd858b6a6ad">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_f12202bb64f06a612e93a85cae4d552d609600a2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-base-8.4.0_fbc6c07d6f7509fec939108946d917c4087d9049.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.4.0_af11756ce353f5b76cfd539b86e7da6d9041487a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.0.1\support-annotations-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="a09194311f8f89c3e6db09d79f50897a889d615e">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\support-annotations-25.0.1_51ab30143fbff50b8779a9626e6d377c1c44e7c7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="c5b7145fb34779b6639147b8f2f8dd77c0db771b">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_e302a192d22f3a60fa9c7bcba6b11cd30cbb272c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="26c6eef571592c91f29e56fda0bac73321de0c92">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.android.support-support-fragment-25.0.1_f016112b75da8b05895d9b14a14330ba99eff081.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_415510fde44719493ffe02ed1b65df02f3fe77dd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-25.0.1_5d34e66d7afdf80ba6a75cffa29fa8cdd2aeb73a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="51eba4a4dd73044f90a9d58dd7ca34adbebfcf4e">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.android.support-support-compat-25.0.1_eda390f01ee02c6114888fb2af56810e021e5843.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appindexing-8.4.0_d53499cee4825ce3691bef36dcac9afc75dd7a5f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="bc7e99e8d0fc279a05aa91378530f467ad62d443">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-ui-25.0.1_fc71e984cb93bc8e073b3f1583540d0c617d85ed.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f7ac4b327fdb9e2ee386f5adc46164927658de4b">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-25.0.1_aefdeb4d394abb962c882df7b39f01d9b70de8fe.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="772bed2d992b67b9d0327f766cc95cd63031dcd3">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-25.0.1_bf9f346f64b596265857a7905340e885771f9a06.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="c0bd6ffb002a85b5e7cad29f8558d1cc59539679">
+        <dex dex="D:\Project\MyDemos\ChooseLangauge\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_edaf3e16d4f12520fb5bc5ba284dd2474517db3f.jar" />
+    </item>
+
+</items>
