@@ -1,0 +1,54 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="com.example.arvindrathour.customalertbox.Dfragment">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:background="@color/gray"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:padding="10dp"
+            android:layout_margin="20dp">
+
+            <TextView
+                android:id="@+id/download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/download_the_s_app" />
+
+            <TextView
+                android:id="@+id/activate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/activate_your_s_merchant_details" />
+
+            <TextView
+                android:id="@+id/conmtact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:text="@string/contact_s_to_sign_up_as_a_merchant" />
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/image_button_cancel"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:foreground="@drawable/cancel_button"
+            android:scaleType="fitXY"
+            android:layout_gravity="right|top"/>
+
+    </FrameLayout>
+</FrameLayout>

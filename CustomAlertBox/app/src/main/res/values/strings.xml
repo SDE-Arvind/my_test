@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CustomAlertBox</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello</string>
+    <string name="download_the_s_app"><![CDATA[>>Download the %s App]]></string>
+    <string name="activate_your_s_merchant_details"><![CDATA[>>Activate your %s Merchant Details]]></string>
+    <string name="contact_s_to_sign_up_as_a_merchant"><![CDATA[>>Contact %s to Sign Up as a Merchant]]></string>
+</resources>
