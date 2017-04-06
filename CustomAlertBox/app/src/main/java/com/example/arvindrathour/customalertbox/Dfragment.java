@@ -37,6 +37,8 @@ public class Dfragment extends DialogFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+                setStyle(android.support.v4.app.DialogFragment.STYLE_NORMAL, R.style.PlaceOrderPopUpTheme);
+
     }
 
     @Override
@@ -48,7 +50,6 @@ public class Dfragment extends DialogFragment{
          getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
          setCancelable(false);
 
-//        setStyle(android.support.v4.app.DialogFragment.STYLE_NORMAL, R.style.PlaceOrderPopUpTheme);
 
         TextView downloadTextView=(TextView)  rootView.findViewById(R.id.download);
         TextView activateTextView=(TextView)  rootView.findViewById(R.id.activate);
