@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "826656767333",
+    "firebase_url": "https://realtimedatrabase.firebaseio.com",
+    "project_id": "realtimedatrabase",
+    "storage_bucket": "realtimedatrabase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826656767333:android:5cc9921248255e1f",
+        "android_client_info": {
+          "package_name": "com.example.arvindrathour.firebasedatabase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826656767333-89p252u5kjh4kj7e1o5cij9otk2spumb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arvindrathour.firebasedatabase",
+            "certificate_hash": "6b1aef69b475a7ec000e81c306727d340a98a918"
+          }
+        },
+        {
+          "client_id": "826656767333-ucfdbu9a0fcc1ndv8ba7s7ioogojsdip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP88oxEEUn4bYXlLSaFH3r2Tkm9hdBNEk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826656767333-ucfdbu9a0fcc1ndv8ba7s7ioogojsdip.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
