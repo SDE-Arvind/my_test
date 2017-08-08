@@ -45,6 +45,7 @@ public class FireBaseService extends FirebaseMessagingService {
                 Log.e("JSON_OBJECT", object.toString());
 //                JSON_OBJECT: {"questionId":"1","latestComment":"Test","questionTitle":"Test","userDisplayName":"Test"}
                 Log.e("notification body", remoteMessage.getNotification().getBody());
+                Log.e("data body", remoteMessage.getData().toString());
 //                notification body: Hello
                 Intent local = new Intent();
                 local.setAction("com.hello.action");
