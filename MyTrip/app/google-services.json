@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "682299976568",
+    "firebase_url": "https://mytripplanner-ccfa4.firebaseio.com",
+    "project_id": "mytripplanner-ccfa4",
+    "storage_bucket": "mytripplanner-ccfa4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682299976568:android:54933f049469ae6f",
+        "android_client_info": {
+          "package_name": "com.example.arvind.mytrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "682299976568-9gj07eg2sps1cjr1pbfsade2dnnb4uoq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arvind.mytrip",
+            "certificate_hash": "8493e708cee6cf2914c13ea73d6314c3c66f401d"
+          }
+        },
+        {
+          "client_id": "682299976568-8odmo9pce3blcf9ekeascqlg8851ghta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWZQcNKH59FbJGZW1kHgEwwqhzWSf6pmA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "682299976568-8odmo9pce3blcf9ekeascqlg8851ghta.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
